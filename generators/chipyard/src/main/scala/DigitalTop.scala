@@ -37,6 +37,9 @@ class DigitalTop(implicit p: Parameters) extends ChipyardSystem
   with chipyard.clocking.CanHaveClockTap // Enables optionally adding a clock tap output port
   with fftgenerator.CanHavePeripheryFFT // Enables optionally having an MMIO-based FFT block
   with constellation.soc.CanHaveGlobalNoC // Support instantiating a global NoC interconnect
+  with bubbletea.CanHavePeripheryUIntBubbletea // Enables optionally adding the bubbletea accelerator with a UInt datapath
+  with bubbletea.CanHavePeripherySIntBubbletea // Enables optionally adding the bubbletea accelerator with a SInt datapath
+  with bubbletea.CanHavePeripheryFloatBubbletea // Enables optionally adding the bubbletea accelerator with a Float datapath
 {
   override lazy val module = new DigitalTopModule(this)
 }

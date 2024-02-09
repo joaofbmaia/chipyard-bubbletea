@@ -2,6 +2,7 @@ package chipyard
 
 import org.chipsalliance.cde.config.{Config}
 import freechips.rocketchip.diplomacy.{AsynchronousCrossing}
+import bubbletea.CommonBubbleteaParams
 
 // ------------------------------
 // Configs with MMIO accelerators
@@ -63,5 +64,10 @@ class ManyMMIOAcceleratorRocketConfig extends Config(
   new fftgenerator.WithFFTGenerator(numPoints=8, width=16, decPt=8) ++ // add 8-point mmio fft at the default addr (0x2400) with 16bit fixed-point numbers.
   new chipyard.example.WithStreamingPassthrough ++          // use top with tilelink-controlled streaming passthrough
   new chipyard.example.WithStreamingFIR ++                  // use top with tilelink-controlled streaming FIR
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new chipyard.config.AbstractConfig)
+
+class MinimalBubbleteaRocketConfig extends Config(
+  new bubbletea.WithUIntBubbletea(CommonBubbleteaParams.minimalConfig) ++   // add a minimal bubbletea accelerator with a UInt datapath
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new chipyard.config.AbstractConfig)

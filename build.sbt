@@ -150,7 +150,7 @@ lazy val chipyard = (project in file("generators/chipyard"))
     sha3, // On separate line to allow for cleaner tutorial-setup patches
     dsptools, rocket_dsp_utils,
     gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
-    constellation, mempress, barf, shuttle, caliptra_aes)
+    constellation, mempress, barf, shuttle, caliptra_aes, bubbletea)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(
     libraryDependencies ++= Seq(
@@ -243,6 +243,16 @@ lazy val rocc_acc_utils = (project in file("generators/rocc-acc-utils"))
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
+
+lazy val bubbletea = (project in file("generators/bubbletea"))
+  .dependsOn(rocketchip)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(commonSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+      "edu.berkeley.cs" %% "chiseltest" % "0.6.0"
+    )
+  )
 
 lazy val iocell = Project(id = "iocell", base = file("./tools/barstools/") / "iocell")
   .settings(chiselSettings)
