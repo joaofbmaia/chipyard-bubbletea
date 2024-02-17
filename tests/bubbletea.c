@@ -1,11 +1,11 @@
 #include "bubbletea.h"
 #include "mmio.h"
-#include "bubbletea-bitstream.h"
+#include "bubbletea-lns.h"
 
 int main(void) {
     //printf("Addr: %x\n", (uint64_t) &test_bitstream);
     // Write the bitstream base address
-    reg_write64(BUBBLETEA_BITSTREAM_BASE_ADDR, (uint64_t) &test_bitstream);
+    reg_write64(BUBBLETEA_BITSTREAM_BASE_ADDR, (uint64_t) &load_no_store);
     // Start the bitstream loading
     reg_write8(BUBBLETEA_LOAD_BITSTREAM, 1);
     // Bitstream is being loaded
