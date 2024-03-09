@@ -250,7 +250,8 @@ lazy val bubbletea = (project in file("generators/bubbletea"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "edu.berkeley.cs" %% "chiseltest" % "0.6.0"
+      "edu.berkeley.cs" %% "chiseltest" % "0.6.0",
+      "com.github.tototoshi" %% "scala-csv" % "1.3.10"
     )
   )
 
