@@ -71,3 +71,8 @@ class MinimalBubbleteaRocketConfig extends Config(
   new bubbletea.WithUIntBubbletea(CommonBubbleteaParams.minimalConfig) ++   // add a minimal bubbletea accelerator with a UInt datapath
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++
   new chipyard.config.AbstractConfig)
+
+class Mini2x2BubbleteaRocketConfig extends Config(
+  new bubbletea.WithUIntBubbletea(CommonBubbleteaParams.mini2x2) ++   // add a minimal bubbletea accelerator with a UInt datapath
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++
+  new chipyard.config.AbstractConfig)
