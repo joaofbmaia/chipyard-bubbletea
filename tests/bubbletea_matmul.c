@@ -19,7 +19,7 @@ int main(void) {
     for (int r = 0; r < NR; r++) {
         for (int i = 0; i < NI; i++) {
             for (int k = 0; k < NK; k++) {
-                a[r*NI + i*NI + k] = r*NI + i*NI + k;
+                a[r * (NI * NK) + i * NK + k] = r * (NI * NK) + i * NK + k;
             }
         }
     }
@@ -27,7 +27,7 @@ int main(void) {
     for (int r = 0; r < NR; r++) {
         for (int k = 0; k < NK; k++) {
             for (int j = 0; j < NJ; j++) {
-                b[r*NK + k*NK + j] = r*NK + k*NK + j;
+                b[r * (NK * NJ) + k * NJ + j] = r * (NK * NJ) + k * NJ + j;
             }
         }
     }
@@ -35,7 +35,7 @@ int main(void) {
     for (int r = 0; r < NR; r++) {
         for (int i = 0; i < NI; i++) {
             for (int j = 0; j < NJ; j++) {
-                c[r*NI + i*NI + j] = 0;
+                c[r * (NI * NJ) + i * NJ + j] = 0;
             }
         }
     }
@@ -43,7 +43,7 @@ int main(void) {
     for (int r = 0; r < NR; r++) {
         for (int i = 0; i < NI; i++) {
             for (int j = 0; j < NJ; j++) {
-                d[r*NI + i*NI + j] = 2*r*NI + 2*i*NI + 2*j;
+                d[r * (NI * NJ) + i * NJ + j] = r * (NI * NJ) + i * NJ + j;
             }
         }
     }
@@ -67,14 +67,27 @@ int main(void) {
     while (reg_read8(BUBBLETEA_DONE) == 0) ;
     // The accelerator has finished running
 
-    // Check the result
-    // for (int i = 0; i < 64; i++) {
-    //     if (test_result[i] != i) {
-    //         printf("Error: test_result[%d] = %d\n", i, test_result[i]);
-    //         return 1;
-    //     }
-    // }
+    // Caculate expected result
+    unsigned char expected_result[NR * NI * NJ];
+    for (int r = 0; r < NR; r++) {
+        for (int i = 0; i < NI; i++) {
+            for (int j = 0; j < NJ; j++) {
+                expected_result[r * (NI * NJ) + i * NJ + j] = d[r * (NI * NJ) + i * NJ + j];
+                for (int k = 0; k < NK; k++) {
+                    expected_result[r * (NI * NJ) + i * NJ + j] += a[r * (NI * NK) + i * NK + k] * b[r * (NK * NJ) + k * NJ + j];
+                }
+            }
+        }
+    }
 
-    // printf("Success\n");
+    // Check the result
+    for (int i = 0; i < NR * NI * NJ; i++) {
+        if (c[i] != expected_result[i]) {
+            printf("Error: c[%d] = %d, expected %d\n", i, c[i], expected_result[i]);
+            return 1;
+        }
+    }
+
+    printf("Success\n");
     return 0;
 }
